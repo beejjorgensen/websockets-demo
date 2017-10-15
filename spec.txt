@@ -1,0 +1,27 @@
+Message types and payloads
+
+{
+	"type": "chat-message",
+
+	"payload": {
+		"username": {string},
+		"message": {string}
+	}
+}
+
+{
+	"type": "chat-join",
+
+	"payload": {
+		"username": {string}
+	}
+}
+
+{
+	"type": "chat-leave",
+
+	"payload": {
+		"username": {string}
+	}
+}
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+Chat client HTML
+
+paired with client.js
+-->
+<html>
+	<head>
+		<meta charset="utf8">
+		<style>
+			html {
+				font-family: sans-serif;
+			}
+
+			#chat-output {
+				height: 20ex;
+				border: 1px solid gray;
+				overflow: auto;
+			}
+
+			#chat-input {
+				width: 30em;
+			}
+		</style>
+
+		<script src="chat-client.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<div id="chat-output"></div>
+		<input type="text" id="chat-username">
+		<input type="text" id="chat-input">
+		<input type="button" id="chat-send" value="Send">
+	</body>
+</html>

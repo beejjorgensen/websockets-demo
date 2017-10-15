@@ -1,0 +1,22 @@
+{
+  "name": "beej-websockets-demo",
+  "version": "1.0.0",
+  "description": "Webserver and Websockets chat demo",
+  "main": "main-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main-server"
+  },
+  "keywords": [],
+  "author": "Brian 'Beej' Hall <beej@beej.us> (https://beej.us/)",
+  "homepage": "http://beej.us/blog/data/nodejs-httpserver/",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "websocket": "^1.0.24"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/beejjorgensen/websockets-demo.git"
+  }
+}
