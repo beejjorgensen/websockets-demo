@@ -7,10 +7,10 @@
 
 "use strict";
 
-var httpServer = require("./http-server.js"),
+const httpServer = require("./http-server.js"),
 	wsServer = require("./chat-server.js");
 
-var server = httpServer.start();
+let server = httpServer.start();
 wsServer.start(server);
 
 console.log("---------------------------------------------------------");

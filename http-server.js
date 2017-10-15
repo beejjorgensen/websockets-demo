@@ -10,17 +10,17 @@
 
 "use strict";
 
-var http = require('http'),
+const http = require('http'),
 	url = require('url'),
 	path = require('path'),
 	fs = require('fs');
 
-var port = 3490; // http://localhost:3490/
+let port = 3490; // http://localhost:3490/
 
 // Use current directory as base directory for all file serving
-var basedir = process.cwd();
+let basedir = process.cwd();
 
-var server;
+let server;
 
 /**
  * Returns a MIME type for a file extension
@@ -30,7 +30,7 @@ var server;
  * https://www.npmjs.com/package/mime
  */
 function getMIMEType(filename) {
-	var mimeTypes = {
+	let mimeTypes = {
 		'.js': 'application/javascript',
 		'.jpg': 'image/jpg',
 		'.png': 'image/png',
@@ -38,7 +38,7 @@ function getMIMEType(filename) {
 	};
 
 	// Get the file extension, .html, .js, etc.
-	var ext = path.extname(filename);
+	let ext = path.extname(filename);
 
 	if (ext in mimeTypes) {
 		return mimeTypes[ext];
@@ -57,8 +57,8 @@ function getFilenameFromPath(filepath, callback) {
 
 	// Normalize will translate out all the ./ and ../ parts out of the
 	// path and turn it into a plain, absolute path.
-	var filename = path.normalize(basedir + path.sep + filepath);
-	var st;
+	let filename = path.normalize(basedir + path.sep + filepath);
+	let st;
 
 	/**
 	 * Called when the fs.stat() call completes
@@ -87,7 +87,7 @@ function getFilenameFromPath(filepath, callback) {
 	// for security reasons:
 	if (filename.substring(0, basedir.length) != basedir) {
 		// If not, 404 it
-		var err = new Error("Not Found");
+		let err = new Error("Not Found");
 		err.code = 'ENOENT';
 		return callback(err, filename);
 	}
@@ -135,7 +135,7 @@ function httpHandler(request, response) {
 					// No errors reading the file, so write the response
 
 					// Get the MIME type first
-					var mimeType = getMIMEType(filename);
+					let mimeType = getMIMEType(filename);
 					response.writeHead(200, { 'Content-Type': mimeType });
 					response.write(file, "binary");
 					response.end();
@@ -147,7 +147,7 @@ function httpHandler(request, response) {
 
 	// Extract the part of the URL after the host:port. This is the
 	// filename the browser is looking for:
-	var path = url.parse(request.url).pathname;
+	let path = url.parse(request.url).pathname;
 
 	// Try to find the actual file associated with this path:
 	getFilenameFromPath(path, onGotFilename);

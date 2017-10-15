@@ -10,13 +10,13 @@
 	function qs(sel) { return document.querySelector(sel); }
 	function qsa(sel) { return document.querySelectorAll(sel); }
 
-	var ws; // the websocket
+	let ws; // the websocket
 
 	/**
 	 * Break down a URL into its components
 	 */
 	function parseLocation(url) {
-		var a = document.createElement('a');
+		let a = document.createElement('a');
 		a.href = url;
 
 		return a;
@@ -56,11 +56,11 @@
 	 * Write something to the output portion of the screen
 	 */
 	function writeOutput(s) {
-		var chatOutput = qs('#chat-output');
-		var innerHTML = chatOutput.innerHTML;
+		let chatOutput = qs('#chat-output');
+		let innerHTML = chatOutput.innerHTML;
 
 		// Add a newline before new output
-		var newOutput = innerHTML === ''? s: '<br/>' + s;
+		let newOutput = innerHTML === ''? s: '<br/>' + s;
 
 		chatOutput.innerHTML = innerHTML + newOutput;
 
@@ -136,11 +136,11 @@
 	 * When the socket receives a message
 	 */
 	function onSocketMessage(ev) {
-		var msg = JSON.parse(ev.data);
-		var payload = msg.payload;
+		let msg = JSON.parse(ev.data);
+		let payload = msg.payload;
 
 		// Sanitize HTML string
-		var username = escapeHTML(payload.username);
+		let username = escapeHTML(payload.username);
 
 		switch (msg.type) {
 			case 'chat-message':
@@ -161,7 +161,7 @@
 	 * Once the page has loaded
 	 */
 	function onLoad() {
-		var localURL = parseLocation(window.location);
+		let localURL = parseLocation(window.location);
 
 		qs('#chat-input').addEventListener('keyup', onChatInputKeyUp);
 		qs('#chat-send').addEventListener('click', send);
@@ -174,7 +174,7 @@
 		ws.addEventListener('error', onSocketError);
 		ws.addEventListener('message', onSocketMessage);
 
-		var userName = getChatUsername().trim();
+		let userName = getChatUsername().trim();
 
 		if (userName === '') {
 			qs('#chat-username').value = 'Guest ' +

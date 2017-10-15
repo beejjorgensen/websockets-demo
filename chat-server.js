@@ -8,12 +8,12 @@
 
 "use strict";
 
-var websocket = require("websocket");
+const websocket = require("websocket");
 
-var wsServer;
+let wsServer;
 
 // Maintain a list of connections so we know whom to broadcast to
-var connectionList = {};
+let connectionList = {};
 
 /**
  * Get the object key for a connection.
@@ -27,7 +27,7 @@ var connectionList = {};
  * same, so they're not useful as key information, and we ignore them.)
  */
 function getConnectionKey(connection) {
-	var socket = connection.socket; // The underlying socket
+	let socket = connection.socket; // The underlying socket
 
 	return socket.remoteAddress + socket.remotePort;
 }
@@ -45,8 +45,8 @@ function getConnectionKey(connection) {
 function storeUsername(connection, message) {
 	if (message.payload && message.payload.username) {
 
-		var k = getConnectionKey(connection);
-		var cleanUsername = message.payload.username.trim();
+		let k = getConnectionKey(connection);
+		let cleanUsername = message.payload.username.trim();
 
 		connectionList[k].username = cleanUsername;
 	}
@@ -57,7 +57,7 @@ function storeUsername(connection, message) {
  *
  * For specific message types, do the right thing
  */
-var messageHandler = {
+let messageHandler = {
 	/**
 	 * When a user joins the chat, add them to the connection list, and
 	 * tell everyone else they're here.
@@ -66,7 +66,7 @@ var messageHandler = {
 	 * trim the spaces off the username first and/or do other cleanup.
 	 */
 	"chat-join": function (message) {
-		var response = {
+		let response = {
 			'type': 'chat-join',
 			'payload': {
 				'username': message.payload.username.trim()
@@ -80,14 +80,14 @@ var messageHandler = {
 	 * When a user sends a message, broadcast it to everyone else
 	 */
 	"chat-message": function (message) {
-		var payload = message.payload;
-		var text = payload.message.trim();
+		let payload = message.payload;
+		let text = payload.message.trim();
 
 		// ignore empty messages
 		if (text === '') { return; }
 
 		// make a new chat message to broadcast to everyone
-		var response = {
+		let response = {
 			'type': 'chat-message',
 			'payload': {
 				'username': payload.username.trim(),
@@ -105,8 +105,8 @@ var messageHandler = {
  * @param response {Object}
  */
 function broadcast(response) {
-	for (var k in connectionList) if (connectionList.hasOwnProperty(k)) {
-		var destConnection = connectionList[k].connection;
+	for (let k in connectionList) if (connectionList.hasOwnProperty(k)) {
+		let destConnection = connectionList[k].connection;
 
 		destConnection.send(JSON.stringify(response));
 	}
@@ -136,10 +136,10 @@ function onMessage(message) {
  * Connection: Handle close
  */
 function onClose(reason, description) {
-	var k = getConnectionKey(this);
+	let k = getConnectionKey(this);
 
 	// Get the username so we can tell everyone else
-	var username = connectionList[k].username;
+	let username = connectionList[k].username;
 
 	// Remove this connection from the list
 	delete connectionList[k];
@@ -147,7 +147,7 @@ function onClose(reason, description) {
 	console.log("Websocket: closed: " + this.remoteAddress + ": " + reason + ": " + description);
 
 	// Tell everyone this user has left
-	var response = {
+	let response = {
 		'type': 'chat-leave',
 		'payload': {
 			'username': username
@@ -169,7 +169,7 @@ function onError(error) {
  */
 function isWhitelisted(host) {
 	// This should contain the URL of the site you're hosting the server
-	var whitelist = [
+	let whitelist = [
 		"localhost",
 		"localhost:3490",
 		"goat:3490", // my computer on my LAN, so I can test from other hosts
@@ -219,7 +219,7 @@ function onServerRequest(request) {
  * Server: Handle new connections (after being accepted in onServerRequest())
  */
 function onServerConnect(connection) {
-	var k = getConnectionKey(connection);
+	let k = getConnectionKey(connection);
 
 	connectionList[k] = {
 		'connection': connection
